@@ -144,7 +144,7 @@ angular.module('controllers',[]).controller('MapCt', function ($scope) {
             if (!ov.southwest && nv.southwest) {
                 var markers = [];
 //                console.log($scope.map.bounds);
-                for (var i = 0; i < 20; i++) {
+                for (var i = 0; i < 2000; i++) {
 
                     $scope.mm = createRandomMarker(i, $scope.map.bounds);
                     markers.push($scope.mm);
@@ -284,14 +284,7 @@ angular.module('controllers',[]).controller('MapCt', function ($scope) {
             $scope.map.zoom = parseInt(toBeCasted);
 
 
-        };
-
-//        function Hello($scope, $http) {
-//            $http.get('http://rest-service.guides.spring.io/greeting').
-//                success(function(data) {
-//                    $scope.greeting = data;
-//                });
-//        }
+        }
 
 
     }
