@@ -85,8 +85,13 @@ angular.module('controllers',[]).controller('MapCt', function ($scope) {
                     latitude: latitude,
                     longitude: longitude
                 },
+                options: {
+                    title: 'The White House',
+                    labelContent : '<br />Overlapse'
+
+                },
                 checked: true,
-                title: 'm' + i
+                title: 'marker: ' + i
             };
             ret[idKey] = i;
             return ret;
@@ -95,6 +100,7 @@ angular.module('controllers',[]).controller('MapCt', function ($scope) {
         $scope.randomMarkers = [];
         // Get the bounds from the map once it's loaded
         $scope.$watch(function() { return $scope.map.bounds; }, function(nv, ov) {
+            console.log('creating random markers');
             // Only need to regenerate once
             if (!ov.southwest && nv.southwest) {
                 var markers = [];
@@ -106,46 +112,106 @@ angular.module('controllers',[]).controller('MapCt', function ($scope) {
 
                 }
 //                $scope.randomMarkers = JSON.stringify(markers);
-                $scope.randomMarkers =markers
+                $scope.randomMarkers =markers;
 //                console.log(JSON.stringify(markers));
             }
         }, true);
 
 
+        $scope.model = {hasChecked:true, keyID: undefined, currLat: 0, currLong: 0};
+        // mention the difference here if we don't use model the two way databinding doesn't work
+        // more info here: http://stackoverflow.com/questions/13632042/angularjs-two-way-data-binding-fails-if-element-has-ngmodel-and-a-directive-wit
+        // and here:
+        // http://stackoverflow.com/questions/9682092/databinding-in-angularjs
         $scope.isChecked = true;
-        $scope.keyID = 15;
-        $scope.randomMarkers[15];
+//        $scope.keyID = 1;
+//        $scope.randomMarkers[15];
 
-        var dummyVar = true;
+        //var dummyVar = true;
         $scope.pushNotificationChange = function() {
 
             console.log('Push Notification Change');
-            console.log('was isChecked:',dummyVar);
-            var variab = $scope.randomMarkers[15];
+//            console.log('was isChecked:',dummyVar);
+            var variab = $scope.randomMarkers[$scope.model.keyID];
+
+            console.log('was variab.checked:',variab.checked);
             console.log(variab);
 
-            variab.checked = $scope.isChecked;
-            if (dummyVar==true){
-                dummyVar = false;
+            //variab.checked = $scope.isChecked;
+            if (variab.checked==true){
+//                dummyVar = false;
+                $scope.model.hasChecked = false;
                 variab.checked = false;
             }
             else{
-                dummyVar = true;
+//                dummyVar = true;
+                $scope.model.hasChecked = true;
+
                 variab.checked = true;
             }
+//            console.log('is isChecked:',dummyVar);
+            console.log('variab now is:',variab);
+            $scope.randomMarkers[$scope.model.keyID] = variab;
+            //$scope.keyID = varID;
 
-            $scope.randomMarkers[15] = variab;
+            console.log('scope.keyID now is:',$scope.model.keyID);
 
         };
 
-        $scope.pushEditable = function(){
+        $scope.pushEditable = function(id){
             console.log('new input');
+//            $scope.model.keyID = id;
+            console.log('changed KeyID to:',$scope.model.keyID);
+
         };
 
-        $scope.$watch("keyID", function(){
+        $scope.changeLat = function(){
+            var item = $scope.randomMarkers[$scope.model.keyID];
+            item.coords.latitude = $scope.model.currLat;
+            console.log('item:',item);
+        };
+
+        $scope.changeLong = function(id){
+            var item = $scope.randomMarkers[id];
+            item.coords.longitude = $scope.model.currLong;
+            console.log('item:',item);
+        };
+
+
+        $scope.$watch("model.keyID", function(){
             // do something
-            console.log('watching something');
+            console.log('watching something',$scope.model.keyID);
+
+
+
+//            item.checked = 0;
+            var item = $scope.randomMarkers[$scope.model.keyID];
+            // Important to avoid the 'undefined checked' error at startup
+            if (typeof item !== 'undefined') {
+                console.log('new element:', item);
+                $scope.isChecked = item.checked;
+                $scope.model.hasChecked = item.checked;
+                $scope.model.currLat = item.coords.latitude;
+                $scope.model.currLong = item.coords.longitude;
+
+                console.log('$scope.model.currLat',$scope.model.currLat)
+            }
+            else{
+                console.log('undefined at startup');
+            }
+
         });
+
+
+        $scope.clickedOnMarker = function(selMarker){
+            console.log('clicked on marker ',selMarker);
+            $scope.model.hasChecked = selMarker.checked;
+//            $scope.model.key = selMarker.idKey;
+            $scope.model.keyID = selMarker.idKey;
+            $scope.isChecked = selMarker.checked;
+//            dummyVar = selMarker.checked;
+            console.log('isChecked variable:',$scope.isChecked);
+        };
 
         console.log();
 

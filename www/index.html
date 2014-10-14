@@ -44,14 +44,32 @@
           <section>
 
               <div id="one">
-                  <p> Marker ID: </p>
-                  <textarea name="comment" ng-model="keyID" ng-change="pushEditable()">
-                  </textarea>
+
+                  <ion-list>
+                      <ion-item >
 
 
-                  <!--<textarea name="comment" ng-model="isChecked" ">-->
-                  </textarea>
-                <ion-checkbox ng-model="isChecked" ng-change="pushNotificationChange()">Checkbox Label</ion-checkbox>
+
+                          Marker ID:
+                          <textarea name="comment" ng-model="model.keyID" ng-change="pushEditable(model.keyID)">
+                          </textarea>
+                      </ion-item>
+                      <ion-item >
+                          <!--<textarea name="comment" ng-model="isChecked" ">-->
+                          <!--</textarea>-->
+                        <ion-checkbox ng-model="model.hasChecked" ng-change="pushNotificationChange()">Show/Hide Marker</ion-checkbox>
+
+                      </ion-item>
+
+                      <ion-item >
+                        Lat: <textarea name="comment" ng-model="model.currLat" ng-change="changeLat()">
+                      </textarea>
+                      </ion-item>
+                      <ion-item >
+                          Long: <textarea name="comment" ng-model="model.currLong" ng-change="changeLong(model.keyID)">
+                      </textarea>
+                      </ion-item>
+                  </ion-list>
               </div>
 
 
@@ -60,8 +78,8 @@
 
                     <!--<ui-gmap-marker idKey="marker.idKey" coords="marker.coords"></ui-gmap-marker>-->
 
-                    <ui-gmap-marker ng-repeat="ma in randomMarkers" idKey="ma.idKey" coords="ma.coords"
-                                    ng-if="ma.checked==true">
+                    <ui-gmap-marker ng-repeat=" ma in randomMarkers" idKey="ma.idKey" coords="ma.coords"
+                                    ng-if="ma.checked==true" click="clickedOnMarker(ma)">
 
 
                     </ui-gmap-marker>
