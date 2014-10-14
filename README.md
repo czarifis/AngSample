@@ -11,3 +11,8 @@ In order to run this example you need ionic. Instructions on how to install ioni
 	git clone https://github.com/czarifis/AngSample.git
     cd AngSample
     ionic serve
+    
+Sample Image of the UI
+========
+
+![](images/demo.png)
