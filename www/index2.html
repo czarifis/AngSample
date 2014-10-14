@@ -86,9 +86,12 @@
 
                     <!--<ui-gmap-marker idKey="marker.idKey" coords="marker.coords"></ui-gmap-marker>-->
 
-                    <ui-gmap-marker ng-repeat=" ma in randomMarkers" idKey="ma.idKey" coords="ma.coords"
-                                    ng-if="ma.checked==true" click="clickedOnMarker(ma)"
-                                    options="ma.options">
+                    <!--<ui-gmap-marker ng-repeat=" ma in randomMarkers" idKey="ma.idKey" coords="ma.coords"-->
+                                    <!--ng-if="ma.checked==true" click="clickedOnMarker(ma)"-->
+                                    <!--options="ma.options">-->
+
+                        <ui-gmap-markers models="randomMarkers" coords="'coords'" icon="'icon'" click="'clickedOnMarker(self)'">
+                        </ui-gmap-markers>
 
 
                     </ui-gmap-marker>

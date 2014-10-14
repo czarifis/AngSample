@@ -87,15 +87,54 @@ angular.module('controllers',[]).controller('MapCt', function ($scope) {
                 },
                 options: {
                     title: 'The White House',
-                    labelContent : '<br />Overlapse'
+//                    labelContent : '<br />Overlapse',
+                    draggable: true
 
                 },
                 checked: true,
-                title: 'marker: ' + i
+                title: 'marker: ' + i,
+
+                events: {
+                    dragend: function (marker, eventName, args) {
+                        $log.log('marker dragend');
+                        var lat = marker.getPosition().lat();
+                        var lon = marker.getPosition().lng();
+                        $log.log(lat);
+                        $log.log(lon);
+
+                        $scope.marker.options = {
+                            draggable: true,
+                            labelContent: "lat: " + $scope.marker.coords.latitude + ' ' + 'lon: ' + $scope.marker.coords.longitude,
+                            labelAnchor: "100 0",
+                            labelClass: "marker-labels"
+                        };
+                    }
+                }
             };
             ret[idKey] = i;
             return ret;
         };
+
+
+//        $scope.$watchCollection("randomMarkers.coords", function (newVal, oldVal) {
+//            if (_.isEqual(newVal, oldVal))
+//                return;
+//            $scope.coordsUpdates++;
+//        });
+//        $timeout(function () {
+//            $scope.randomMarkers.coords = {
+//                latitude: 42.1451,
+//                longitude: -100.6680
+//            };
+//            $scope.dynamicMoveCtr++;
+//            $timeout(function () {
+//                $scope.marker.coords = {
+//                    latitude: 43.1451,
+//                    longitude: -102.6680
+//                };
+//                $scope.dynamicMoveCtr++;
+//            }, 2000);
+//        }, 1000);
 
         $scope.randomMarkers = [];
         // Get the bounds from the map once it's loaded
@@ -119,6 +158,8 @@ angular.module('controllers',[]).controller('MapCt', function ($scope) {
 
 
         $scope.model = {hasChecked:true, keyID: undefined, currLat: 0, currLong: 0};
+
+
         // mention the difference here if we don't use model the two way databinding doesn't work
         // more info here: http://stackoverflow.com/questions/13632042/angularjs-two-way-data-binding-fails-if-element-has-ngmodel-and-a-directive-wit
         // and here:
@@ -140,12 +181,12 @@ angular.module('controllers',[]).controller('MapCt', function ($scope) {
             //variab.checked = $scope.isChecked;
             if (variab.checked==true){
 //                dummyVar = false;
-                $scope.model.hasChecked = false;
+//                $scope.model.hasChecked = false;
                 variab.checked = false;
             }
             else{
 //                dummyVar = true;
-                $scope.model.hasChecked = true;
+//                $scope.model.hasChecked = true;
 
                 variab.checked = true;
             }
@@ -202,6 +243,25 @@ angular.module('controllers',[]).controller('MapCt', function ($scope) {
 
         });
 
+        $scope.addRandomMarker = function(){
+            console.log('add random marker');
+            $scope.mm = createRandomMarker($scope.randomMarkers.length, $scope.map.bounds);
+            $scope.randomMarkers.push($scope.mm);
+
+//
+        };
+
+
+        $scope.deleteMarker = function(marker){
+//            console.log('Deleting ',marker);
+
+//            var Arritem = $scope.randomMarkers[marker.idKey];
+
+            var i = $scope.randomMarkers.indexOf(marker);
+
+//            console.log('spotted ',i, $scope.randomMarkers[i]);
+            $scope.randomMarkers.splice(i, 1);
+        };
 
         $scope.clickedOnMarker = function(selMarker){
             console.log('clicked on marker ',selMarker);
@@ -215,8 +275,11 @@ angular.module('controllers',[]).controller('MapCt', function ($scope) {
 
         console.log();
 
-//        fruits.indexOf
+        $scope.castToNumberMap = function(toBeCasted){
+            $scope.map.zoom = parseInt(toBeCasted);
 
+
+        }
 
 
     }
