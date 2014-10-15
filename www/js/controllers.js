@@ -219,29 +219,29 @@ angular.module('controllers',[]).controller('MapCt', function ($scope) {
         };
 
 
-        $scope.$watch("model.keyID", function(){
-            // do something
-            console.log('watching something',$scope.model.keyID);
-
-
-
-//            item.checked = 0;
-            var item = $scope.randomMarkers[$scope.model.keyID];
-            // Important to avoid the 'undefined checked' error at startup
-            if (typeof item !== 'undefined') {
-                console.log('new element:', item);
-                $scope.isChecked = item.checked;
-                $scope.model.hasChecked = item.checked;
-                $scope.model.currLat = item.coords.latitude;
-                $scope.model.currLong = item.coords.longitude;
-
-                console.log('$scope.model.currLat',$scope.model.currLat)
-            }
-            else{
-                console.log('undefined at startup');
-            }
-
-        });
+//        $scope.$watch("model.keyID", function(){
+//            // do something
+//            console.log('watching something',$scope.model.keyID);
+//
+//
+//
+////            item.checked = 0;
+//            var item = $scope.randomMarkers[$scope.model.keyID];
+//            // Important to avoid the 'undefined checked' error at startup
+//            if (typeof item !== 'undefined') {
+//                console.log('new element:', item);
+//                $scope.isChecked = item.checked;
+//                $scope.model.hasChecked = item.checked;
+//                $scope.model.currLat = item.coords.latitude;
+//                $scope.model.currLong = item.coords.longitude;
+//
+//                console.log('$scope.model.currLat',$scope.model.currLat)
+//            }
+//            else{
+//                console.log('undefined at startup');
+//            }
+//
+//        });
 
         $scope.addRandomMarker = function(){
             console.log('add random marker');

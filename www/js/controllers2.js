@@ -81,6 +81,8 @@ angular.module('controllers',[]).controller('MapCt', function ($scope) {
             var longitude = lng_min + (Math.random() * lng_range);
             var ret = {
                 idKey: i,
+
+
                 coords: {
                     latitude: latitude,
                     longitude: longitude
@@ -144,7 +146,7 @@ angular.module('controllers',[]).controller('MapCt', function ($scope) {
             if (!ov.southwest && nv.southwest) {
                 var markers = [];
 //                console.log($scope.map.bounds);
-                for (var i = 0; i < 2000; i++) {
+                for (var i = 0; i < 20; i++) {
 
                     $scope.mm = createRandomMarker(i, $scope.map.bounds);
                     markers.push($scope.mm);
@@ -169,11 +171,11 @@ angular.module('controllers',[]).controller('MapCt', function ($scope) {
 //        $scope.randomMarkers[15];
 
         //var dummyVar = true;
-        $scope.pushNotificationChange = function() {
+        $scope.pushNotificationChange = function(key) {
 
             console.log('Push Notification Change');
 //            console.log('was isChecked:',dummyVar);
-            var variab = $scope.randomMarkers[$scope.model.keyID];
+            var variab = $scope.randomMarkers[key];
 
             console.log('was variab.checked:',variab.checked);
             console.log(variab);
