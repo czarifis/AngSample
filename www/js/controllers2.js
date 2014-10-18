@@ -95,26 +95,57 @@ angular.module('controllers',[]).controller('MapCt', function ($scope) {
                 },
                 checked: true,
                 title: 'marker: ' + i,
+//                events: {
+//                    dragend: function (marker) {
+//                        console.log('you moved the marker 2', marker);
+//
+//                    }
+//                }
 
-                events: {
-                    dragend: function (marker, eventName, args) {
-                        $log.log('marker dragend');
-                        var lat = marker.getPosition().lat();
-                        var lon = marker.getPosition().lng();
-                        $log.log(lat);
-                        $log.log(lon);
 
-                        $scope.marker.options = {
-                            draggable: true,
-                            labelContent: "lat: " + $scope.marker.coords.latitude + ' ' + 'lon: ' + $scope.marker.coords.longitude,
-                            labelAnchor: "100 0",
-                            labelClass: "marker-labels"
-                        };
-                    }
-                }
             };
             ret[idKey] = i;
+
+
             return ret;
+        };
+
+        $scope.events= {
+            dragend: function (marker,eventName, args) {
+                console.log('you moved the marker',marker.getPosition(), args);
+
+                // modifying the model of the left view
+                console.log('clicked on marker on the map:',args);
+                $scope.model.hasChecked = args.checked;
+
+                $scope.model.keyID = args.idKey;
+                $scope.isChecked = args.checked;
+
+                console.log('isChecked variable:',$scope.isChecked);
+
+
+                // modifying the model of the actual marker
+                var id = args.idKey;
+
+                var item = $scope.randomMarkers[id];
+                item.coords.longitude = marker.getPosition().lng();
+
+                console.log('item:',item);
+
+            },
+
+            click: function (marker,eventName, args) {
+
+                // modifying the model of the left view
+                console.log('clicked on marker on the map:',args);
+                $scope.model.hasChecked = args.checked;
+
+                $scope.model.keyID = args.idKey;
+                $scope.isChecked = args.checked;
+
+                console.log('isChecked variable:',$scope.isChecked);
+
+            }
         };
 
 
@@ -146,15 +177,27 @@ angular.module('controllers',[]).controller('MapCt', function ($scope) {
             if (!ov.southwest && nv.southwest) {
                 var markers = [];
 //                console.log($scope.map.bounds);
-                for (var i = 0; i < 20; i++) {
+                for (var i = 0; i < 2000; i++) {
 
                     $scope.mm = createRandomMarker(i, $scope.map.bounds);
                     markers.push($scope.mm);
 
                 }
 //                $scope.randomMarkers = JSON.stringify(markers);
+
+
                 $scope.randomMarkers =markers;
-//                console.log(JSON.stringify(markers));
+//                markers.push({events: {
+//                    dragend: function (marker) {
+//
+//                        console.log('marker dragend');
+//
+//                    }}}
+//                );
+
+                console.log(JSON.stringify(markers));
+
+                $scope.randomMarkers =markers;
             }
         }, true);
 

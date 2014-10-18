@@ -144,7 +144,7 @@ angular.module('controllers',[]).controller('MapCt', function ($scope) {
             if (!ov.southwest && nv.southwest) {
                 var markers = [];
 //                console.log($scope.map.bounds);
-                for (var i = 0; i < 20; i++) {
+                for (var i = 0; i < 2000; i++) {
 
                     $scope.mm = createRandomMarker(i, $scope.map.bounds);
                     markers.push($scope.mm);
@@ -155,6 +155,8 @@ angular.module('controllers',[]).controller('MapCt', function ($scope) {
 //                console.log(JSON.stringify(markers));
             }
         }, true);
+
+
 
 
         $scope.model = {hasChecked:true, keyID: undefined, currLat: 0, currLong: 0};
