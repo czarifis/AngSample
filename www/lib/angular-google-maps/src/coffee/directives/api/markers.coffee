@@ -22,6 +22,7 @@ angular.module("google-maps.directives.api".ns())
     link: (scope, element, attrs, ctrl) =>
       parentModel = undefined
       ready = =>
+
         if scope.control?
           scope.control.getGMarkers = =>
             parentModel.gMarkerManager?.getGMarkers()

@@ -114,7 +114,7 @@ angular.module('controllers',[]).controller('MapCt', function ($scope) {
 //            console.log('is isChecked:',dummyVar);
             console.log('variab now is:',variab);
             $scope.randomMarkers[$scope.model.keyID] = variab;
-            //$scope.keyID = varID;
+            //$scope.key                                                                                                                                                                ID = varID;
 
             console.log('scope.keyID now is:',$scope.model.keyID);
 
@@ -128,13 +128,25 @@ angular.module('controllers',[]).controller('MapCt', function ($scope) {
         };
 
         $scope.changeLat = function(){
-            var item = $scope.randomMarkers[$scope.model.keyID];
+            var item = {};
+            for (i = 0; i<$scope.randomMarkers.length;i++){
+                if($scope.randomMarkers[i].idKey==$scope.model.keyID){
+                    item = $scope.randomMarkers[i]
+                }
+
+            }
             item.coords.latitude = $scope.model.currLat;
             console.log('item:',item);
         };
 
         $scope.changeLong = function(id){
-            var item = $scope.randomMarkers[id];
+            var item = {};
+            for (i = 0; i<$scope.randomMarkers.length;i++){
+                if($scope.randomMarkers[i].idKey==$scope.model.keyID){
+                    item = $scope.randomMarkers[i]
+                }
+
+            }
             item.coords.longitude = $scope.model.currLong;
             console.log('item:',item);
         };
